@@ -1,7 +1,10 @@
 const express = require("express");
 const app = express();
-const port = 80;
+const port = 6000;
 const fs = require("fs");
+const DataSchema = require("./model");
+
+require("./db");
 
 app.use(express.json());
 
@@ -19,7 +22,8 @@ app.get("/records", (req, res) => {
   res.status(200).json(items);
 });
 
-app.get("/nodes", (req, res) => {
+app.get("/nodes", async (req, res) => {
+  // return await DataSchema.find();
   if (!fs.existsSync("nodes.json")) {
     return res.status(200).json([]);
   }
@@ -55,5 +59,3 @@ app.post("/nodes", (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
-
-module.exports = app;
